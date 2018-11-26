@@ -7,8 +7,12 @@
     <title>{{ page_title }}</title>
 </head>
 <body>
-    <header><a href="/">Home</a></header>
-    <header>{{ author }}</header>
+    <header>
+        <h2><a href="/">Home</a></h2>
+        <h4><a href="/register">Register</a></h4>
+        <h4><a href="/create">Create</a></h4>
+        {{ author }}
+    </header>
  
     <ul >
         {% for item in recipes %}
