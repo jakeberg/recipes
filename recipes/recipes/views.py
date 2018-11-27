@@ -27,6 +27,7 @@ def author_detail_view(request, id):
     data = {
         'recipes': recipes, 
         'page_title': 'Author recipes',
+        'author': recipes[0].author
     }
     return render(request, 'recipes.html', data)
 

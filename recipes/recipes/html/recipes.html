@@ -1,25 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     <title>{{ page_title }}</title>
 </head>
+
 <body>
-    <header>
-        <h2><a href="/">Home</a></h2>
-        <h4><a href="/register">Register</a></h4>
-        <h4><a href="/create">Create</a></h4>
-        {{ author }}
-    </header>
- 
-    <ul >
-        {% for item in recipes %}
-            <li><a href="/recipe/{{ item.id }}">{{ item.title }}</a></li>
-            <p>by: <a href="/authors/{{ item.author.id }}">{{ item.author }}</a></p>
-        {% endfor %}
-    </ul>
-    
+
+    <div class="container">
+        <header>
+            <h2><a href="/">Home</a></h2>
+            <h4><a href="/register">Register</a></h4>
+            <h4><a href="/create">Create</a></h4>
+
+        </header>
+        <div class="row justify-content-left">
+            {% if author %}
+                <h3>{{ author }}'s recipes</h3>
+            {% endif %}
+            <table class="table">
+                <thread>
+                    <tr>
+                        <th scope="col">Author</th>
+                        <th scope="col">Recipe</th>
+                    </tr>
+                    <tbody>
+                        {% for item in recipes %}
+                        <tr>
+                            <th scope="row">
+                                <p>by: <a href="/authors/{{ item.author.id }}">{{ item.author }}</a></p>
+                            </th>
+                            <td><a href="/recipe/{{ item.id }}">{{ item.title }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </thread>
+            </table>
+        </div>
+    </div>
 </body>
+
 </html>
