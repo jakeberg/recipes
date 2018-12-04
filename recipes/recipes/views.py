@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from recipes.models import Recipe
-from recipes.forms import RecipeFrom, AuthorForm, SignupForm, LoginForm
+from recipes.models import Recipe, Author
+from recipes.forms import RecipeForm, SignupForm, LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -18,6 +18,7 @@ def signup_view(request):
         user = User.objects.create_user(
             data['username'], data['email'], data['password'])
         login(request, user)
+        Author.objects.create(name=user.username, user=user)
         return HttpResponseRedirect(reverse('homepage'))
 
     if request.user.is_staff:
@@ -35,6 +36,7 @@ def login_view(request):
         next = request.POST.get('next')
         data = form.cleaned_data
         user = authenticate(username=data['username'], password=data['password'])
+        
         if user is not None:
             login(request, user)  
         if next:
@@ -67,7 +69,7 @@ def recipe_details_views(request, key):
 @login_required()
 def recipe_create_view(request):
 
-    form = RecipeFrom(request.user, request.POST or None)
+    form = RecipeForm(request.user, request.POST or None)
 
     if form.is_valid():
         form.save()
@@ -86,17 +88,6 @@ def author_detail_view(request, id):
         'author': recipes[0].author
     }
     return render(request, 'recipes.html', data)
-
-
-@login_required()
-def author_create_view(request):
-
-    form = AuthorForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('homepage'))
-    return render(request, 'author_form.html', {'form': form})
 
 
 def error_view(request):
