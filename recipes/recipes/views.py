@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import reverse
 
+
 def signup_view(request):
 
     html = "signup.html"
@@ -25,6 +26,7 @@ def signup_view(request):
         return render(request, html, {'form': form})
     else:
         return HttpResponseRedirect(reverse('error'))
+
 
 def login_view(request):
 
